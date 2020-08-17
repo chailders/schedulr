@@ -7,6 +7,9 @@ root = Tk()
 root.title('Schedulr')
 root.geometry("400x400")
 
+
+
+
 #submit function for database
 def submit():
     #connect to database
@@ -17,10 +20,13 @@ def submit():
 
     #Insert into table includes dummy variables that start with :, first part of line 25 comes from the dummy variable names
     #lines 25,26 are python dictionaries
-    cursor.execute("INSERT INTO staff VALUES (:f_name, :l_name)",
+
+    cursor.execute("INSERT INTO staff VALUES (:f_name, :l_name, :ncoButton)",
         {
             'f_name': f_name.get(),
             'l_name': l_name.get(),
+            'ncoButton' : ncoButton
+        
         }
     
     )
@@ -72,10 +78,10 @@ cursor = connect.cursor()
 #the "x6 are necessary to make the command multiline without breaking
 cursor.execute(""" CREATE TABLE IF NOT EXISTS staff (
     last_name text,
-    first_name text
+    first_name text,
+    ncoButton text
 )""")
-#                             readd these after they have entry options 
-    #nco null,  
+#                             readd these after they have entry options  
     #etp null,
     #shu null,
     #cls null,
@@ -100,6 +106,7 @@ f_name.grid(row=0, column=1, padx=20)
 l_name = Entry(root, width=30)
 l_name.grid(row=1, column=1)
 
+
 #create box labels
 f_name_label = Label(root, text="First Name")
 f_name_label.grid(row=0, column=0)
@@ -107,14 +114,22 @@ f_name_label.grid(row=0, column=0)
 l_name_label = Label(root, text="Last Name")
 l_name_label.grid(row=1, column=0)
 
+#buttons
+ncoButton = ()
+ncoButton = Radiobutton(root, text="NCO: Yes", variable=ncoButton, value="True")
+ncoButton.grid(row=3, column=0)
+ncoButton = Radiobutton(root, text="No", variable=ncoButton, value="False")
+ncoButton.grid(row=3, column=1)
+
+
 #create submit button
 submit_button = Button(root, text="Add record to database", command=submit)
-submit_button.grid(row=2, column=0, columnspan=2, pady=10, padx=10, ipadx=100)
+submit_button.grid(row=4, column=0, columnspan=2, pady=10, padx=10, ipadx=100)
 
 
 #query button shows values
 query_btn = Button(root, text="Show Staff", command=query)
-query_btn.grid(row=3, column=0, columnspan=2, pady=10, padx=10, ipadx=137)
+query_btn.grid(row=5, column=0, columnspan=2, pady=10, padx=10, ipadx=137)
 
 #tkinter stuff ?
 root.mainloop()
